@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "MonolithApplication",
+      "request": "launch",
+      "mainClass": "com.stocksync.backend.MonolithApplication",
+      "projectName": "backend"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot - MonolithApplication",
+      "request": "launch",
+      "mainClass": "com.stocksync.backend.MonolithApplication",
+      "projectName": "backend",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
