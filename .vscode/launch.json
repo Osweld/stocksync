@@ -6,13 +6,6 @@
       "name": "MonolithApplication",
       "request": "launch",
       "mainClass": "com.stocksync.backend.MonolithApplication",
-      "projectName": "backend"
-    },
-    {
-      "type": "java",
-      "name": "Spring Boot - MonolithApplication",
-      "request": "launch",
-      "mainClass": "com.stocksync.backend.MonolithApplication",
       "projectName": "backend",
       "envFile": "${workspaceFolder}/.env"
     }
