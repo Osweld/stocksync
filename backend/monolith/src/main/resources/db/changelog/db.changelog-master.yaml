@@ -1,1 +1,8 @@
 databaseChangeLog:
+  - include:
+        file: 01-schema/001-create-security-schema.sql
+        relativeToChangelogFile: true
+  - include:
+        file: 02-data/001-seed-base-data-dev.sql
+        relativeToChangelogFile: true
+        contexts: [dev, test]
