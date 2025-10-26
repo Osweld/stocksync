@@ -22,6 +22,14 @@ public class Tenant {
             throw new IllegalArgumentException("Company name cannot be empty.");
         }
 
+        if(planId == null || planId.value().isBlank()){
+            throw new IllegalArgumentException("Plan ID cannot be empty.");
+        }
+
+        if(status == null){
+            throw new IllegalArgumentException("Tenant status cannot be null.");
+        }
+
         return new Tenant(
             UUID.randomUUID(),
             companyName,
