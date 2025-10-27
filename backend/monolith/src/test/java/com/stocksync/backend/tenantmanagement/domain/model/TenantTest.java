@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class TenantTest {
+class TenantTest {
 
     private static final String VALID_COMPANY_NAME = "Empresa Válida S.A.";
     private static final PlanId VALID_PLAN_ID = new PlanId("PREMIUM");
