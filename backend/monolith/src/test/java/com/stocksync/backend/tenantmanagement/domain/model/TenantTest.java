@@ -23,16 +23,14 @@ class TenantTest {
         validStatus = VALID_STATUS;
     }
 
-
     @Test
     @DisplayName("Should throw exception when company name is blank")
     void register_shouldThrowException_whenCompanyNameIsBlank() {
-        
-        String blankCompanyName = "   "; 
-        
+
+        String blankCompanyName = "   ";
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Tenant.register(blankCompanyName, validStatus, validPlanId); 
+            Tenant.register(blankCompanyName, validStatus, validPlanId);
         });
 
         assertEquals("Company name cannot be empty.", exception.getMessage());
@@ -41,18 +39,15 @@ class TenantTest {
     @Test
     @DisplayName("Should throw exception when company name is null")
     void register_shouldThrowException_whenCompanyNameIsNull() {
-        
-        String blankCompanyName = null; 
-        
+
+        String blankCompanyName = null;
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Tenant.register(blankCompanyName, validStatus, validPlanId); 
+            Tenant.register(blankCompanyName, validStatus, validPlanId);
         });
 
         assertEquals("Company name cannot be empty.", exception.getMessage());
     }
-
-    
 
     @Test
     @DisplayName("Should throw exception when Plan ID is blank")
@@ -77,19 +72,17 @@ class TenantTest {
             Tenant.register(VALID_COMPANY_NAME, validStatus, nullPlanId);
         });
 
-        assertEquals("Plan ID cannot be null.", exception.getMessage());
+        assertEquals("Plan ID cannot be empty.", exception.getMessage());
     }
 
     @Test
     @DisplayName("Should throw exception when Tenant Status is null")
     void register_shouldThrowException_whenTenantStatusIsNull() {
 
-        String validCompanyName = "Empresa Válida S.A.";
-        PlanId validPlanId = new PlanId("PREMIUM");
         TenantStatus nullStatus = null;
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Tenant.register(validCompanyName, nullStatus, validPlanId);
+            Tenant.register(VALID_COMPANY_NAME, nullStatus, validPlanId);
         });
 
         assertEquals("Tenant status cannot be null.", exception.getMessage());
@@ -98,20 +91,14 @@ class TenantTest {
     @Test
     @DisplayName("Should create Tenant when data is valid")
     void register_shouldCreateTenant_whenDataIsValid() {
-        
-        String validCompanyName = "Empresa Válida S.A.";
-        PlanId planId = new PlanId("PREMIUM");
-        TenantStatus status = TenantStatus.ACTIVE;
 
-       
-        Tenant tenant = Tenant.register(validCompanyName, status, planId);
+        Tenant tenant = Tenant.register(VALID_COMPANY_NAME, VALID_STATUS, VALID_PLAN_ID);
 
-        
         assertNotNull(tenant.getId(), "ID should be generated");
-        assertEquals(validCompanyName, tenant.getCompanyName());
-        assertEquals(planId, tenant.getPlanId());
-        assertEquals(status, tenant.getStatus());
+        assertEquals(VALID_COMPANY_NAME, tenant.getCompanyName());
+        assertEquals(VALID_PLAN_ID, tenant.getPlanId());
+        assertEquals(VALID_STATUS, tenant.getStatus());
         assertNotNull(tenant.getCreatedAt(), "CreatedAt should be set");
     }
-   
+
 }
