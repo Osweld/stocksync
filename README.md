@@ -36,14 +36,3 @@ El desarrollo sigue el patrón de **Cortes Verticales (Vertical Slices)** e **It
 | **Asincronía (Futuro)** | **Apache Kafka** | Bus de mensajes para el desacoplamiento de servicios (ej. confirmación de órdenes, notificaciones) en la fase de microservicios. |
 | **Migraciones DB** | **Liquibase** | Control de versiones y ejecución de scripts SQL, con aislamiento de datos de prueba mediante **Contextos**. |
 | **Pruebas** | **Testcontainers** | Entornos de pruebas de integración efímeros (Postgres y Redis reales en Docker) para garantizar la funcionalidad de JPA y Redis. |
-
------
-
-## 🔑 Módulos Principales (Contextos Delimitados)
-
-| Módulo | Descripción | Tarea Crítica del Portafolio |
-| :--- | :--- | :--- |
-| **Tenant Management** | Gestión de Inquilinos, Usuarios, Roles y Autenticación. | **Aislamiento Multi-Tenancy.** Creación del JWT con el `tenant_id` para filtrar todos los datos. |
-| **Inventory Management** | Control de Stock, Costeo (WAC) y Movimientos. | **Alta Concurrencia.** Uso de Redis para el bloqueo atómico (`DECRBY`) del stock disponible durante las ventas. |
-| **Order Management** | Creación y gestión del flujo de Órdenes de Compra (PO) y Venta (SO). | **Resiliencia Asíncrona.** Uso de Kafka para el procesamiento de eventos de confirmación de órdenes. |
-
