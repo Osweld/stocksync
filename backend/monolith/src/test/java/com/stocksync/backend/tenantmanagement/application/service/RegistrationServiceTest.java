@@ -80,6 +80,7 @@ class RegistrationServiceTest {
         @Test
         @DisplayName("Should execute full transaction and return tenant ID when all data is valid")
         void register_ShouldExecuteFullTransaction_WhenAllDataIsValid() {
+
             // Given
             when(tenantDefaultsPolicy.getDefaultPlanId()).thenReturn(DEFAULT_PLAN_ID);
             when(tenantDefaultsPolicy.getInitialStatus()).thenReturn(INITIAL_STATUS);
@@ -95,13 +96,11 @@ class RegistrationServiceTest {
             // Then
             assertThat(tenantId).isNotNull();
 
-            // Verify interactions
             verify(userRepository, times(1)).findByEmail(VALID_EMAIL);
             verify(tenantRepository, times(1)).save(any(Tenant.class));
             verify(userRepository, times(1)).save(any(User.class));
             verify(passwordEncoder, times(1)).encode(VALID_PASSWORD);
 
-            // Verify domain objects creation
             ArgumentCaptor<Tenant> tenantCaptor = ArgumentCaptor.forClass(Tenant.class);
             verify(tenantRepository).save(tenantCaptor.capture());
             Tenant savedTenant = tenantCaptor.getValue();
@@ -110,7 +109,6 @@ class RegistrationServiceTest {
             verify(userRepository).save(userCaptor.capture());
             User savedUser = userCaptor.getValue();
 
-            // Assert domain logic
             assertThat(savedTenant.getId()).isEqualTo(tenantId);
             assertThat(savedTenant.getPlanId()).isEqualTo(DEFAULT_PLAN_ID);
             assertThat(savedTenant.getStatus()).isEqualTo(INITIAL_STATUS);
