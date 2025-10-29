@@ -27,12 +27,19 @@ public class User {
         if (roles == null || roles.isEmpty()) {
             throw new IllegalArgumentException("At least one role is required.");
         }
+
         if (tenantId == null) {
             throw new IllegalArgumentException("tenantId cannot be null.");
         }
+
+        if (initialStatus == null) {
+            throw new IllegalArgumentException("initialStatus cannot be null.");
+        }
+
         if (email == null || email.isBlank()) {
             throw new IllegalArgumentException("email cannot be empty.");
         }
+
         if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
             throw new IllegalArgumentException("A valid email is required.");
         }
@@ -43,11 +50,9 @@ public class User {
         if (firstName == null || firstName.isBlank()) {
             throw new IllegalArgumentException("firstName cannot be empty.");
         }
+        
         if (lastName == null || lastName.isBlank()) {
             throw new IllegalArgumentException("lastName cannot be empty.");
-        }
-        if (initialStatus == null) {
-            throw new IllegalArgumentException("initialStatus cannot be null.");
         }
 
         return new User(
