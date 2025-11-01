@@ -1,104 +1,106 @@
 package com.stocksync.backend.tenantmanagement.domain.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+@DisplayName("Tenant Domain Model")
 class TenantTest {
 
     private static final String VALID_COMPANY_NAME = "Empresa Válida S.A.";
     private static final PlanId VALID_PLAN_ID = new PlanId("PREMIUM");
     private static final TenantStatus VALID_STATUS = TenantStatus.ACTIVE;
+    
+    // Invalid test data constants
+    private static final String BLANK_COMPANY_NAME = "   ";
+    private static final PlanId BLANK_PLAN_ID = new PlanId("   ");
 
-    private PlanId validPlanId;
-    private TenantStatus validStatus;
+    @Nested
+    @DisplayName("When creating with invalid data")
+    class InvalidCreation {
+        
+        @Test
+        @DisplayName("Should throw exception when company name is blank")
+        void companyNameBlank() {
+            assertThatThrownBy(() -> Tenant.register(BLANK_COMPANY_NAME, VALID_STATUS, VALID_PLAN_ID))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Company name cannot be empty.");
+        }
 
-    @BeforeEach
-    void setUp() {
-        validPlanId = VALID_PLAN_ID;
-        validStatus = VALID_STATUS;
+        @Test
+        @DisplayName("Should throw exception when company name is null")
+        void companyNameNull() {
+            assertThatThrownBy(() -> Tenant.register(null, VALID_STATUS, VALID_PLAN_ID))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Company name cannot be empty.");
+        }
+
+        @Test
+        @DisplayName("Should throw exception when Plan ID is blank")
+        void planIdBlank() {
+            assertThatThrownBy(() -> Tenant.register(VALID_COMPANY_NAME, VALID_STATUS, BLANK_PLAN_ID))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Plan ID cannot be empty.");
+        }
+
+        @Test
+        @DisplayName("Should throw exception when Plan ID is null")
+        void planIdNull() {
+            assertThatThrownBy(() -> Tenant.register(VALID_COMPANY_NAME, VALID_STATUS, null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Plan ID cannot be empty.");
+        }
+
+        @Test
+        @DisplayName("Should throw exception when Tenant Status is null")
+        void tenantStatusNull() {
+            assertThatThrownBy(() -> Tenant.register(VALID_COMPANY_NAME, null, VALID_PLAN_ID))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Tenant status cannot be null.");
+        }
     }
 
-    @Test
-    @DisplayName("Should throw exception when company name is blank")
-    void register_shouldThrowException_whenCompanyNameIsBlank() {
+    @Nested
+    @DisplayName("When creating with valid data")
+    class ValidCreation {
+        
+        @Test
+        @DisplayName("Should create tenant with all attributes set")
+        void shouldCreateTenantWithAllAttributes() {
+            // When
+            Tenant tenant = Tenant.register(VALID_COMPANY_NAME, VALID_STATUS, VALID_PLAN_ID);
 
-        String blankCompanyName = "   ";
+            // Then
+            assertThat(tenant)
+                .extracting(
+                    Tenant::getCompanyName,
+                    Tenant::getPlanId, 
+                    Tenant::getStatus
+                )
+                .containsExactly(
+                    VALID_COMPANY_NAME,
+                    VALID_PLAN_ID,
+                    VALID_STATUS
+                );
+        }
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Tenant.register(blankCompanyName, validStatus, validPlanId);
-        });
+        @Test
+        @DisplayName("Should generate ID and creation timestamp")
+        void shouldGenerateIdAndTimestamp() {
+            // When
+            Tenant tenant = Tenant.register(VALID_COMPANY_NAME, VALID_STATUS, VALID_PLAN_ID);
 
-        assertEquals("Company name cannot be empty.", exception.getMessage());
+            // Then
+            assertThat(tenant.getId())
+                .as("Generated ID should not be null")
+                .isNotNull();
+                
+            assertThat(tenant.getCreatedAt())
+                .as("Creation timestamp should be set")
+                .isNotNull();
+        }
     }
-
-    @Test
-    @DisplayName("Should throw exception when company name is null")
-    void register_shouldThrowException_whenCompanyNameIsNull() {
-
-        String blankCompanyName = null;
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Tenant.register(blankCompanyName, validStatus, validPlanId);
-        });
-
-        assertEquals("Company name cannot be empty.", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Should throw exception when Plan ID is blank")
-    void register_shouldThrowException_whenPlanIdIsBlank() {
-
-        PlanId blankPlanId = new PlanId("   ");
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Tenant.register(VALID_COMPANY_NAME, validStatus, blankPlanId);
-        });
-
-        assertEquals("Plan ID cannot be empty.", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Should throw exception when Plan ID is null")
-    void register_shouldThrowException_whenPlanIdIsNull() {
-
-        PlanId nullPlanId = null;
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Tenant.register(VALID_COMPANY_NAME, validStatus, nullPlanId);
-        });
-
-        assertEquals("Plan ID cannot be empty.", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Should throw exception when Tenant Status is null")
-    void register_shouldThrowException_whenTenantStatusIsNull() {
-
-        TenantStatus nullStatus = null;
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Tenant.register(VALID_COMPANY_NAME, nullStatus, validPlanId);
-        });
-
-        assertEquals("Tenant status cannot be null.", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Should create Tenant when data is valid")
-    void register_shouldCreateTenant_whenDataIsValid() {
-
-        Tenant tenant = Tenant.register(VALID_COMPANY_NAME, VALID_STATUS, VALID_PLAN_ID);
-
-        assertNotNull(tenant.getId(), "ID should be generated");
-        assertEquals(VALID_COMPANY_NAME, tenant.getCompanyName());
-        assertEquals(VALID_PLAN_ID, tenant.getPlanId());
-        assertEquals(VALID_STATUS, tenant.getStatus());
-        assertNotNull(tenant.getCreatedAt(), "CreatedAt should be set");
-    }
-
 }
