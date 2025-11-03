@@ -22,7 +22,7 @@ public class User {
     private final Set<Role> roles;
 
     public static User createAdmin(UUID tenantId, String email, String passwordHash, String firstName, String lastName,
-            UserStatus initialStatus, Set<Role> roles) {
+            UserStatus userStatus, Set<Role> roles) {
 
         if (roles == null || roles.isEmpty()) {
             throw new IllegalArgumentException("At least one role is required.");
@@ -32,8 +32,8 @@ public class User {
             throw new IllegalArgumentException("tenantId cannot be null.");
         }
 
-        if (initialStatus == null) {
-            throw new IllegalArgumentException("initialStatus cannot be null.");
+        if (userStatus == null) {
+            throw new IllegalArgumentException("userStatus cannot be null.");
         }
 
         if (email == null || email.isBlank()) {
@@ -62,7 +62,7 @@ public class User {
                 passwordHash,
                 firstName,
                 lastName,
-                initialStatus,
+                userStatus,
                 Collections.unmodifiableSet(roles));
     }
 
