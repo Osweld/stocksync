@@ -65,7 +65,7 @@ public class RegistrationService implements RegisterTenantUseCase {
         if (command == null) {
             throw new IllegalArgumentException("RegisterCommand cannot be null");
         }
-        // Validaciones básicas que no duplican las de Bean Validation
+        
         if (userRepository.findByEmail(command.email()).isPresent()) {
             throw new EmailAlreadyExistsException(command.email());
         }
