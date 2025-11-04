@@ -58,6 +58,7 @@ class RegistrationServiceTest {
     private RegistrationService registrationService;
 
     private RegisterCommand validCommand;
+
     private static final PlanId DEFAULT_PLAN_ID = new PlanId("FREE_PLAN");
     private static final TenantStatus INITIAL_STATUS = TenantStatus.ACTIVE;
     private static final UserStatus DEFAULT_USER_STATUS = UserStatus.ACTIVE;
@@ -132,7 +133,7 @@ class RegistrationServiceTest {
             // When
             registrationService.registerTenant(validCommand);
 
-            // Then - Verify domain factory methods were used
+            // Then
             ArgumentCaptor<Tenant> tenantCaptor = ArgumentCaptor.forClass(Tenant.class);
             verify(tenantRepository).save(tenantCaptor.capture());
 
