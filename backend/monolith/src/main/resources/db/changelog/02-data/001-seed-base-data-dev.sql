@@ -1,5 +1,5 @@
 
-INSERT INTO plan (id, name, description)
+INSERT INTO plans (id, name, description)
 VALUES
     ('TRIAL', 'Trial Plan', 'Limited features for a trial period.'),
     ('FREE', 'Free Plan', 'Basic features for a single user.'),
@@ -7,14 +7,14 @@ VALUES
     ('ENTERPRISE', 'Enterprise Plan', 'Advanced features for large organizations.')
 ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO tenant (id, company_name, plan_id, status_id)
+INSERT INTO tenants (id, company_name, plan_id, status_id)
 VALUES
     ('a375562a-3850-4757-b5e3-c751b1fca0c5', 'StockSync Test Co.', 'PREMIUM', 'ACTIVE'),
     ('b475673b-4961-5868-c6f4-d862c2fdb1d6', 'Demo Corp', 'TRIAL', 'PENDING'),
     ('c586784c-5a72-6979-d7f5-e973d3fec2e7', 'Enterprise Ltd.', 'ENTERPRISE', 'ACTIVE')
 ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO "user" (id, tenant_id, email, password_hash, first_name, last_name, status)
+INSERT INTO users (id, tenant_id, email, password_hash, first_name, last_name, status)
 VALUES
     ('a375562a-3850-4757-b5e3-c751b1fca0c4',
      'a375562a-3850-4757-b5e3-c751b1fca0c5',
