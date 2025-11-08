@@ -46,6 +46,7 @@ class UserTest {
             assertThat(user.getLastName()).isEqualTo("Doe");
             assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);
             assertThat(user.getRoles()).containsExactlyInAnyOrderElementsOf(Set.of(Role.ROLE_ADMIN));
+            assertThat(user.getCreatedAt()).isNotNull();
         }
 
         @Test
