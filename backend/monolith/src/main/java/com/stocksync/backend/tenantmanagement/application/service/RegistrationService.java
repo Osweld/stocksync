@@ -12,7 +12,6 @@ import com.stocksync.backend.tenantmanagement.application.exception.EmailAlready
 import com.stocksync.backend.tenantmanagement.application.port.in.RegisterTenantUseCase;
 import com.stocksync.backend.tenantmanagement.application.port.out.TenantDefaultsPolicy;
 import com.stocksync.backend.tenantmanagement.application.port.out.TenantRepositoryPort;
-import com.stocksync.backend.tenantmanagement.application.port.out.UserDefaultsPolicy;
 import com.stocksync.backend.tenantmanagement.application.port.out.UserRepositoryPort;
 import com.stocksync.backend.tenantmanagement.domain.model.Role;
 import com.stocksync.backend.tenantmanagement.domain.model.Tenant;
@@ -29,7 +28,6 @@ public class RegistrationService implements RegisterTenantUseCase {
     private final TenantDefaultsPolicy tenantDefaultsPolicy;
     private final UserRepositoryPort userRepository;
     private final TenantRepositoryPort tenantRepository;
-    private final UserDefaultsPolicy userDefaultsPolicy;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -52,7 +50,7 @@ public class RegistrationService implements RegisterTenantUseCase {
                 encodedPassword,
                 command.firstName(),
                 command.lastName(),
-                userDefaultsPolicy.getDefaultStatus(),
+                tenantDefaultsPolicy.getDefaultUserStatus(),
                 DEFAULT_ADMIN_ROLES);
 
         Tenant tenantSaved = tenantRepository.save(tenant);
