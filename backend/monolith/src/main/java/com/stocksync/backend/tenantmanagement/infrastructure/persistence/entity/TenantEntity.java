@@ -35,7 +35,7 @@ public class TenantEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_id", nullable = false, length = 50)
-    private TenantStatus statusId;
+    private TenantStatus tenantStatus;
 
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
