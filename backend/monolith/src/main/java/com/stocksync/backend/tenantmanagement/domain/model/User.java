@@ -2,6 +2,7 @@ package com.stocksync.backend.tenantmanagement.domain.model;
 
 import java.util.Set;
 import java.util.UUID;
+import java.time.OffsetDateTime;
 import java.util.Collections;
 
 import lombok.AccessLevel;
@@ -20,6 +21,7 @@ public class User {
     private final String lastName;
     private final UserStatus status;
     private final Set<Role> roles;
+    private final OffsetDateTime createdAt;
 
     public static User createAdmin(UUID tenantId, String email, String passwordHash, String firstName, String lastName,
             UserStatus userStatus, Set<Role> roles) {
@@ -63,7 +65,8 @@ public class User {
                 firstName,
                 lastName,
                 userStatus,
-                Collections.unmodifiableSet(roles));
+                Collections.unmodifiableSet(roles),
+                OffsetDateTime.now());
     }
 
     public Set<Role> getRoles() {
