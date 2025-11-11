@@ -5,12 +5,11 @@ import java.util.UUID;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor()
 public class User {
 
     private final UUID id;
