@@ -1,6 +1,5 @@
 package com.stocksync.backend.securitycore.config;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -31,8 +30,8 @@ public class SecurityFilterChainConfig {
         .cors(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(authorize -> authorize
         .requestMatchers(
-            "api/v1/auth/login",
-            "api/v1/auth/register"
+            "/api/v1/auth/login",
+            "/api/v1/auth/register"
         ).permitAll()
         .anyRequest().authenticated())
         .sessionManagement(session -> session
