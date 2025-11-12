@@ -15,9 +15,10 @@ import com.stocksync.backend.tenantmanagement.infrastructure.dto.response.Regist
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
-@RequestMapping("/api/v1/auth/register")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class RegisterController {
 
@@ -25,19 +26,16 @@ public class RegisterController {
 
     private final RegistrationService registrationService;
 
-
+    @PostMapping("/register")
     ResponseEntity<RegistrationResponse> register(@Valid @RequestBody RegistrationRequest request) {
         UUID tenantId = registrationService.registerTenant(
-            new RegisterCommand(
-              request.companyName(),
-                request.email(),
-                request.rawPassword(),
-                request.firstName(),
-                request.lastName()
-            )
-        );
+                new RegisterCommand(
+                        request.companyName(),
+                        request.email(),
+                        request.rawPassword(),
+                        request.firstName(),
+                        request.lastName()));
         return new ResponseEntity<>(new RegistrationResponse(
-            tenantId, SUCCESSFUL_REGISTRATION_MESSAGE
-        ), HttpStatus.CREATED);
+                tenantId, SUCCESSFUL_REGISTRATION_MESSAGE), HttpStatus.CREATED);
     }
 }
