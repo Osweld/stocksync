@@ -24,7 +24,7 @@ public class PlanEntity {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "descripcion", length = 1000)
-    private String descripcion;
+    @Column(name = "description", length = 1000)
+    private String description;
 
 }
